@@ -1,0 +1,2 @@
+Tutorial on basic speech to text here:
+https://www.studytonight.com/post/javascript-speech-recognition-example-speech-to-text
