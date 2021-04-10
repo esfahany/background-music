@@ -1,0 +1,38 @@
+<!-- Keyword detection HTML file for demo purposes -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Face Detection</title>
+  <script defer src="./face-api.min.js"></script>
+  <script defer src="./script.js"></script>
+  <style>
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    p {
+      line-height: 50%;
+    }
+  </style>
+</head>
+<body>
+  <video id="video" autoplay></video>
+  <h1 id="expression"></h1>
+  <div>
+    <p id="neutral"></p>
+    <p id="happy"></p>
+    <p id="sad"></p>
+    <p id="angry"></p>
+    <p id="fearful"></p>
+    <p id="disgusted"></p>
+    <p id="surprised"></p>
+  </div>
+</body>
+</html>

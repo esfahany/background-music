@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "node-rake": "^1.0.1"
+  }
+}
