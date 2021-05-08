@@ -53,7 +53,7 @@ video.addEventListener('play', () => {
             var maxValue = 0;
             for (let index = 0; index < expressionName.length; index++) {
                 const name = expressionName[index];
-                const value = expressionValue[index]
+                const value = expressionValue[index];
                 let analysis = (name + " is " + value)
                 if (maxValue<value){
                      dominantEmotion = name;
@@ -62,8 +62,15 @@ video.addEventListener('play', () => {
                 document.getElementById(name).innerHTML = analysis;
             }
             if (dominantValue !="neutral"){
-                playSong(dominantEmotion)
+                playSong(dominantEmotion);
     // Checks the expressions every three seconds
     }, 3000)
 })
 
+function playSong(emotion){
+     var songNumber = Math.floor(Math.random() * 10);
+     var filepath = "Data/".concat(emotion, num.toString(songNumber), ".mp3");
+     var audio = new Audio(filepath);
+     audio.play()
+
+}
