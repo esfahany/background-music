@@ -70,7 +70,7 @@ video.addEventListener('play', () => {
 
 function playSong(emotion){
      var songNumber = Math.floor(Math.random() * 15);
-     var filepath = "Data/".concat(emotion,"/" songNumber.toString(songNumber), ".mp3");
+     var filepath = "Data/".concat(emotion,"/", songNumber.toString(songNumber), ".mp3");
      var audio = new Audio(filepath);
      audio.play()
 
