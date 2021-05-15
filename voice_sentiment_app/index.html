@@ -10,18 +10,27 @@
 <body>
         <script src="ml5.min.js"></script>
         <script type="text/javascript" src="script.js"></script>
-        <h2>Soundtrack<h2>
-        <h3>background music for real life</h3>
+        <h1>Soundtrack<h1>
+        <h2>background music for real life</h2>
 
 
         <p>Pick a sentiment analyzer:</p>
-        <p><button type="button" onclick="runSpeechRecognition()">Lexical Analysis</button> &nbsp; <span
-                        id="action"></span></p>
-        <div id="transcript"></div>
-        <div id="sentiment"></div>
+        <p><button type="button" onclick="runSpeechRecognition()">Lexical Analysis</button> &nbsp;</p>
+        
+        <span id="action" class="hide"></span>
 
-        <p><button type="button" onclick="runSpeechRecognition()">Facial Expression Analysis</button> &nbsp; <span
-                id="action"></span></p>
+        <div id="lexical_analysis_div" class ="hide">
+                <h3>Speech to Text</h3>
+                <div id="transcript"  ></div>
+                <br/>
+                <div id="confidence"></div>
+                <h3>Sentiment Analysis</h3>
+                <div id="last_words"></div>
+                <br/>
+                <div id="sentiment"></div>
+        </div>
+
+        <p><button type="button" onclick="runSpeechRecognition()">Facial Expression Analysis</button> &nbsp; </p>
 
 
 

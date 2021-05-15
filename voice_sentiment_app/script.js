@@ -5,12 +5,17 @@ function modelReady() {
 const sentiment = ml5.sentiment('movieReviews', modelReady);
 
 function runSpeechRecognition() {
-    console.log("function starting");
     // get output div references
+    var lexical_analysis_div = document.getElementById("lexical_analysis_div");
+    lexical_analysis_div.classList.remove("hide");
     var transcript_div = document.getElementById("transcript");
+    var confidence_div = document.getElementById("confidence");
+    var last_words_div = document.getElementById("last_words");
     var sentiment_div = document.getElementById("sentiment");
+
     // get action element reference
     var action = document.getElementById("action");
+    action.classList.remove("hide");
     // new speech recognition object
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
@@ -19,11 +24,11 @@ function runSpeechRecognition() {
     
     // This runs when the speech recognition service starts
     recognition.onstart = function() {
-        action.innerHTML = "listening";
+        action.innerHTML = "microphone ON";
     };
     
     recognition.onspeechend = function() {
-        action.innerHTML = "done";
+        action.innerHTML = "microphone OFF";
         recognition.stop();
     }
 
@@ -41,11 +46,14 @@ function runSpeechRecognition() {
             else{
                 interimTranscript += transcript;
             }
-            transcript_div.innerHTML = "<b>Text:</b> " + finalTranscript + interimTranscript + "<br/> <b>Speech to Text Confidence:</b> " + confidence*100+"%";
+            transcript_div.innerHTML = "<b>Transcript:</b> " + finalTranscript + "<span style='color: red;'>" + interimTranscript + "</span>";
+            confidence_div.innerHTML = "<b>Transcript Confidence:</b> " + (confidence*100).toFixed(2) +"%";
         }
-        var sentiment_score = sentiment.predict(finalTranscript.slice(-20)).score;
-        sentiment_div.innerHTML = "<b>Sentiment Score:</b>" + sentiment_score;
-        // output.classList.remove("hide");
+        var most_recent_words = finalTranscript.split(" ").slice(-10).join(" ");
+        console.log(most_recent_words);
+        var sentiment_score = sentiment.predict(most_recent_words).score;
+        last_words_div.innerHTML = "<b>Most Recent Comments: </b>" + "... " + most_recent_words;
+        sentiment_div.innerHTML = "<b>Sentiment Score (0 = negative, 1 = positive): </b>" + sentiment_score.toFixed(5);
     };
 
     // start recognition

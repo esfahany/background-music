@@ -22,3 +22,15 @@ button {
 .show {
     display:block;
 }
+
+h3 {
+    color: blue;
+}
+
+#action{
+    border: 2px solid gray;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(255, 162, 250);
+    color: black;
+}
