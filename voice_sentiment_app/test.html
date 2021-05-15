@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Speech recognition</title>
+        <style>
+            #result{
+                border: 2px solid black;
+                height: 200px;
+                border-radius: 3px;
+                font-size: 14px;
+            }
+            button{
+                position: absolute;
+                top: 240px;
+                left: 50%;
+            }
+        </style>
+        <script type="application/javascript">
+            function start(){
+                var r = document.getElementById("result");
+            if("webkitSpeechRecognition" in window){
+                var speechRecognizer = new webkitSpeechRecognition();
+                speechRecognizer.continuous = true;
+                speechRecognizer.interimResults = true;
+                speechRecognizer.lang = "en-US";
+                speechRecognizer.start();
+                
+                var finalTranscripts = "";
+                speechRecognizer.onresult = function(event){
+                    var interimTranscripts = "";
+                    for(var i=event.resultIndex; i<event.results.length; i++){
+                        console.log("inter" , interimTranscripts);
+                        console.log("final" , finalTranscripts);
+                        var transcript = event.results[i][0].transcript;
+                        // transcript.replace("\n", "<br>");
+                        if(event.results[i].isFinal){
+                            finalTranscripts += transcript;
+                        }
+                        else{
+                            interimTranscripts += transcript;
+                        }
+                        r.innerHTML = finalTranscripts + '<span style="color: #999;">' + interimTranscripts + '</span>';
+                    }
+                };
+                speechRecognizer.onerror = function(event){
+                };
+            }
+            else{
+                r.innerHTML = "Your browser does not support that.";
+            }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="result"></div>
+        <button onclick="start()">Listen</button>
+    </body>
+</html>

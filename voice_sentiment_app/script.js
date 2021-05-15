@@ -1,55 +1,55 @@
+function modelReady() {
+    // log when the model is rrady
+    console.log("Model Loaded!");
+}
+const sentiment = ml5.sentiment('movieReviews', modelReady);
+
 function runSpeechRecognition() {
-    // get output div reference
-    var output = document.getElementById("output");
+    console.log("function starting");
+    // get output div references
+    var transcript_div = document.getElementById("transcript");
+    var sentiment_div = document.getElementById("sentiment");
     // get action element reference
     var action = document.getElementById("action");
     // new speech recognition object
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
-
-    /////// ml5 stuff
-    // Create a new Sentiment method
-    const sentiment = ml5.sentiment('movieReviews', modelReady);
-        
-    // When the model is loaded
-    function modelReady() {
-        // model is ready
-        console.log("Model Loaded!");
-    }
-
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    
     // This runs when the speech recognition service starts
     recognition.onstart = function() {
-        action.innerHTML = "<small>listening, please speak...</small>";
+        action.innerHTML = "listening";
     };
     
     recognition.onspeechend = function() {
-        action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+        action.innerHTML = "done";
         recognition.stop();
     }
 
-    
-
-    // make the prediction
-    // const prediction = sentiment.predict(text);
-  
     // This runs when the speech recognition service returns result
+    var finalTranscript = "";
     recognition.onresult = function(event) {
-        var transcript = event.results[0][0].transcript;
-        // console.log(transcript);
-        // console.log(typeof(transcript));
-        var confidence = event.results[0][0].confidence;
-        var sentiment_score = sentiment.predict(transcript).score;
-        // console.log(sentiment_score.score);
-
-        
-        output.innerHTML = "<b>Text:</b> " + transcript + "<br/> <b>Speech to Text Confidence:</b> " + confidence*100+"%" + "<br/> <b>Sentiment Score:</b> " + sentiment_score;
-        output.classList.remove("hide");
-
-        
-        
+        // console.log(event.results);
+        var interimTranscript = "";
+        for(var i=event.resultIndex; i < event.results.length; i++){
+            var transcript = event.results[i][0].transcript;
+            var confidence = event.results[i][0].confidence;
+            if (event.results[i].isFinal){
+                finalTranscript += transcript;
+            }
+            else{
+                interimTranscript += transcript;
+            }
+            transcript_div.innerHTML = "<b>Text:</b> " + finalTranscript + interimTranscript + "<br/> <b>Speech to Text Confidence:</b> " + confidence*100+"%";
+        }
+        var sentiment_score = sentiment.predict(finalTranscript.slice(-20)).score;
+        sentiment_div.innerHTML = "<b>Sentiment Score:</b>" + sentiment_score;
+        // output.classList.remove("hide");
     };
-  
-     // start recognition
-     recognition.start();
+
+    // start recognition
+    recognition.start();
+
 }
 
